@@ -52,6 +52,7 @@ let newJpegData;
 
 selectLang.addEventListener("change", function () {
   langInfo = this.options[this.selectedIndex].dataset.lang;
+
   window.location.href = this.value;
 });
 fileInput.addEventListener("change", function (event) {
