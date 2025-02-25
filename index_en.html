@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="hy">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="EXIF Տվյալներ" />
-    <meta property="og:locale" content="hy_HY" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta
       property="og:description"
@@ -14,11 +14,8 @@
       property="og:url"
       content="https://rainbow-youtiao-8f6d98.netlify.app/"
     />
-    <meta
-      property="og:image"
-      content="The Open Graph protocol/file.png"
-    />
-    <title>EXIF Տվյալներ</title>
+    <meta property="og:image" content="The Open Graph protocol/file.png" />
+    <title>EXIF Data</title>
     <link rel="icon" href="Logo/exif.png" type="image/x-icon" />
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
@@ -26,53 +23,58 @@
   <body>
     <div id="container">
       <div class="block">
-        <h1>EXIF Տվյալներ</h1>
-        <h2>Վերբեռնեք նկար</h2>
+        <select id="selectLang">
+          <option data-lang="hy" value="index_hy.html">ARM</option>
+          <option data-lang="en" value="index_en.html" selected>EN</option>
+          <option data-lang="ru" value="index_ru.html">RU</option>
+        </select>
+        <h1>EXIF Data</h1>
+        <h2>Upload Image</h2>
 
         <label class="buttonInput" for="fileInput" id="fileInputLabel"
-          >Ընտրեք նկար</label
+          >Choose Image</label
         >
         <input type="file" id="fileInput" accept="image/jpeg" />
 
         <img src="" id="imagePreview" />
 
-        <div id="exifData">Այստեղ կհայտնվի տվյալները...</div>
+        <div id="exifData">EXIF data will appear here...</div>
       </div>
 
       <div class="block block_second">
-        <h2>Ավելացնել տվյալներ</h2>
+        <h2>Add data</h2>
         <input
           type="text"
           class="inputText"
           id="authorInput"
-          placeholder="Հեղինակ (Լատինատար)"
+          placeholder="Author (Latin script)"
         />
         <input
           type="text"
           class="inputText"
           id="descriptionInput"
-          placeholder="Նկարագրություն (Լատինատար)"
+          placeholder="Description (Latin script)"
         />
         <input
           type="text"
           class="inputText"
           id="commentInput"
-          placeholder="Մեկնաբանություն (Լատինատար)"
+          placeholder="Comment (Latin script)"
         />
         <input
           type="button"
           class="buttonInput"
           id="addExifBtn"
-          value="Ավելացնել EXIF"
+          value="Add EXIF"
         />
 
         <input
           type="text"
           class="inputText"
           id="nameFile"
-          placeholder="Նկարի անվանումը"
+          placeholder="Image Name"
         />
-        <a id="downloadLink">Ներբեռնել փոփոխված նկարը</a>
+        <a id="downloadLink">Download Modified Image</a>
       </div>
     </div>
 

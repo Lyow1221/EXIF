@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="EXIF Данные" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="Информация о EXIF файлах, как проверить, отредактировать и добавить новые данные к вашим фотографиям"
+    />
+    <meta
+      property="og:url"
+      content="https://rainbow-youtiao-8f6d98.netlify.app/"
+    />
+    <meta property="og:image" content="The Open Graph protocol/file.png" />
+    <title>EXIF Данные</title>
+    <link rel="icon" href="Logo/exif.png" type="image/x-icon" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="block">
+        <select id="selectLang">
+          <option data-lang="hy" value="index_hy.html">ARM</option>
+          <option data-lang="en" value="index_en.html">EN</option>
+          <option data-lang="ru" value="index_ru.html" selected>RU</option>
+        </select>
+        <h1>EXIF Данные</h1>
+        <h2>Загрузить изображение</h2>
+
+        <label class="buttonInput" for="fileInput" id="fileInputLabel">
+          Выберите изображение
+        </label>
+        <input type="file" id="fileInput" accept="image/jpeg" />
+
+        <img src="" id="imagePreview" />
+
+        <div id="exifData">Здесь появятся EXIF данные...</div>
+      </div>
+
+      <div class="block block_second">
+        <h2>Добавить данные</h2>
+        <input
+          type="text"
+          class="inputText"
+          id="authorInput"
+          placeholder="Автор (латиница)"
+        />
+        <input
+          type="text"
+          class="inputText"
+          id="descriptionInput"
+          placeholder="Описание (латиница)"
+        />
+        <input
+          type="text"
+          class="inputText"
+          id="commentInput"
+          placeholder="Комментарий (латиница)"
+        />
+        <input
+          type="button"
+          class="buttonInput"
+          id="addExifBtn"
+          value="Добавить EXIF"
+        />
+
+        <input
+          type="text"
+          class="inputText"
+          id="nameFile"
+          placeholder="Название изображения"
+        />
+        <a id="downloadLink">Скачать измененное изображение</a>
+      </div>
+    </div>
+
+    <script src="piexif.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

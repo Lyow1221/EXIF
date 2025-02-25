@@ -1,7 +1,5 @@
 "use strict";
 
-console.log(document.querySelector("meta[property='og:description']").content);
-
 let imagePreview = document.getElementById("imagePreview"),
   fileInput = document.getElementById("fileInput"),
   addExifBtn = document.getElementById("addExifBtn"),
@@ -9,23 +7,53 @@ let imagePreview = document.getElementById("imagePreview"),
   nameFile = document.getElementById("nameFile"),
   authorInput = document.getElementById("authorInput"),
   descriptionInput = document.getElementById("descriptionInput"),
-  commentInput = document.getElementById("commentInput");
+  commentInput = document.getElementById("commentInput"),
+  selectLang = document.getElementById("selectLang");
 
 const err = "No data available.";
 addExifBtn.disabled = true;
+let langInfo = selectLang.selectedOptions[0].dataset.lang;
 
 let exifDataObj = {
-  "👤 Հեղինակ": null,
-  "📝 Նկարագրություն": null,
-  "💬 Մեկնաբանություն": null,
-  "📷 Տեսախցիկ": null,
-  "🕒 Նկարահանման ամսաթիվ": null,
-  "🗺️ տեղանք": null,
+  hy: {
+    "👤 Հեղինակ": err,
+    "📝 Նկարագրություն": err,
+    "💬 Մեկնաբանություն": err,
+    "📷 Տեսախցիկ": err,
+    "🕒 Նկարահանման ամսաթիվ": err,
+    "🗺️ Տեղանք": err,
+  },
+  en: {
+    "👤 Author": err,
+    "📝 Description": err,
+    "💬 Comment": err,
+    "📷 Camera": err,
+    "🕒 Date Taken": err,
+    "🗺️ Location": err,
+  },
+  ru: {
+    "👤 Автор": err,
+    "📝 Описание": err,
+    "💬 Комментарий": err,
+    "📷 Камера": err,
+    "🕒 Дата съемки": err,
+    "🗺️ Местоположение": err,
+  },
 };
+
+let errDuringWork = {
+  hy : "Սխալ նկարի մշակման ժամանակ",
+  en : "Error while processing image",
+  ru : "Ошибка при обработке изображения",
+}
 
 let loadedImageData;
 let newJpegData;
 
+selectLang.addEventListener("change", function () {
+  langInfo = this.options[this.selectedIndex].dataset.lang;
+  window.location.href = this.value;
+});
 fileInput.addEventListener("change", function (event) {
   addExifBtn.disabled = false;
   let file = event.target.files[0];
@@ -58,17 +86,36 @@ fileInput.addEventListener("change", function (event) {
       let gpsE = exifData["GPS"]["4"];
       let location = gpsFun(gpsN, gpsE);
 
-      exifDataObj["👤 Հեղինակ"] = author;
-      exifDataObj["📝 Նկարագրություն"] = description;
-      exifDataObj["💬 Մեկնաբանություն"] = userComment;
-      exifDataObj["📷 Տեսախցիկ"] = `${make} ${model}`;
-      exifDataObj["🕒 Նկարահանման ամսաթիվ"] = datetime;
-      exifDataObj["🗺️ տեղանք"] = location;
+      console.log(langInfo);
+      if (langInfo === "hy") {
+        exifDataObj[langInfo]["👤 Հեղինակ"] = author;
+        exifDataObj[langInfo]["📝 Նկարագրություն"] = description;
+        exifDataObj[langInfo]["💬 Մեկնաբանություն"] = userComment;
+        exifDataObj[langInfo]["📷 Տեսախցիկ"] = `${make} ${model}`;
+        exifDataObj[langInfo]["🕒 Նկարահանման ամսաթիվ"] = datetime;
+        exifDataObj[langInfo]["🗺️ Տեղանք"] = location;
+      } else if (langInfo === "ru") {
+        exifDataObj[langInfo]["👤 Автор"] = author;
+        exifDataObj[langInfo]["📝 Описание"] = description;
+        exifDataObj[langInfo]["💬 Комментарий"] = userComment;
+        exifDataObj[langInfo]["📷 Камера"] = `${make} ${model}`;
+        exifDataObj[langInfo]["🕒 Дата съемки"] = datetime;
+        exifDataObj[langInfo]["🗺️ Локация"] = location;
+      } else if (langInfo === "en") {
+        exifDataObj[langInfo]["👤 Author"] = author;
+        exifDataObj[langInfo]["📝 Description"] = description;
+        exifDataObj[langInfo]["💬 Comment"] = userComment;
+        exifDataObj[langInfo]["📷 Camera"] = `${make} ${model}`;
+        exifDataObj[langInfo]["🕒 Date Taken"] = datetime;
+        exifDataObj[langInfo]["🗺️ Location"] = location;
+      }
 
-      let exifDataObjText = Object.entries(exifDataObj)
+      console.log(Object.entries(exifDataObj[langInfo]));
+
+      let exifDataObjText = Object.entries(exifDataObj[langInfo])
         .map(([key, value]) => {
           value = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          if (key === "🗺️ տեղանք" && value !== err) {
+          if ((key === "🗺️ Տեղանք" || key === "🗺️ Локация" || key === "🗺️ Location") && value !== err) {
             return `${key}: <a id = "locLink" href="https://www.google.com/maps?q=${value}" target="_blank">${value}</a>`;
           }
           return `${key}: ${value}`;
@@ -77,9 +124,9 @@ fileInput.addEventListener("change", function (event) {
 
       document.getElementById("exifData").innerHTML = exifDataObjText;
     } catch (error) {
-      console.error("EXIF-ի մշակման սխալ:", error);
+      console.error(errDuringWork[langInfo], error);
       document.getElementById("exifData").innerHTML =
-        "Սխալ նկարի մշակման ժամանակ";
+      errDuringWork[langInfo];
     }
   };
   reader.readAsDataURL(file);
